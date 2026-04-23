@@ -1,0 +1,40 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Create account</h1>
+    <p class="subtitle">Get started in seconds</p>
+
+    <form (ngSubmit)="submit()" autocomplete="off">
+      <label>
+        Full name
+        <input type="text" name="name" [(ngModel)]="name" required />
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" [(ngModel)]="email" required />
+      </label>
+
+      <label>
+        Password
+        <input type="password" name="password" [(ngModel)]="password" required minlength="6" />
+      </label>
+
+      <label>
+        Account type
+        <select name="role" [(ngModel)]="role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </label>
+
+      <div class="error" *ngIf="error">{{ error }}</div>
+      <div class="success" *ngIf="success">{{ success }}</div>
+
+      <button type="submit" class="btn primary" [disabled]="loading">
+        {{ loading ? 'Creating…' : 'Create account' }}
+      </button>
+    </form>
+
+    <p class="alt">Already have an account? <a routerLink="/login">Sign in</a></p>
+  </div>
+</div>

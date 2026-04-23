@@ -1,0 +1,126 @@
+<div class="dashboard">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">A</span>
+      <div>
+        <div class="brand-title">Admin Console</div>
+        <div class="brand-sub">Welcome back, {{ current?.name }}</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="badge admin">Admin</span>
+      <button class="btn ghost" (click)="auth.logout()">Sign out</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <h2 class="section-title">Overview</h2>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue">U</div>
+        <div class="stat-meta">
+          <div class="stat-label">Total Users</div>
+          <div class="stat-value">{{ totalUsers }}</div>
+          <div class="stat-foot up">+{{ newUsersThisMonth }} this month</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon gold">★</div>
+        <div class="stat-meta">
+          <div class="stat-label">Premium Users</div>
+          <div class="stat-value">{{ premiumUsers }}</div>
+          <div class="stat-foot">{{ conversionRate }}% conversion</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">$</div>
+        <div class="stat-meta">
+          <div class="stat-label">Total Payments</div>
+          <div class="stat-value">${{ totalPayments | number }}</div>
+          <div class="stat-foot up">${{ monthRevenue | number }} this month</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange">⏱</div>
+        <div class="stat-meta">
+          <div class="stat-label">Pending Payments</div>
+          <div class="stat-value">${{ pendingPayments | number }}</div>
+          <div class="stat-foot">awaiting settlement</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">F</div>
+        <div class="stat-meta">
+          <div class="stat-label">Free Users</div>
+          <div class="stat-value">{{ freeUsers }}</div>
+          <div class="stat-foot">eligible for upgrade</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon teal">%</div>
+        <div class="stat-meta">
+          <div class="stat-label">Conversion Rate</div>
+          <div class="stat-value">{{ conversionRate }}%</div>
+          <div class="stat-foot">premium / total</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <section class="panel">
+        <header class="panel-head">
+          <h3>Users</h3>
+          <span class="muted">{{ users.length }} total</span>
+        </header>
+        <table class="table">
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Role</th><th>Plan</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users">
+              <td>{{ u.name }}</td>
+              <td class="muted">{{ u.email }}</td>
+              <td><span class="chip" [class.admin]="u.role === 'admin'">{{ u.role }}</span></td>
+              <td><span class="chip" [class.gold]="u.premium">{{ u.premium ? 'Premium' : 'Free' }}</span></td>
+              <td>
+                <button class="btn small" (click)="togglePremium(u)">
+                  {{ u.premium ? 'Downgrade' : 'Upgrade' }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <header class="panel-head">
+          <h3>Recent Payments</h3>
+          <span class="muted">{{ payments.length }} entries</span>
+        </header>
+        <table class="table">
+          <thead>
+            <tr><th>User</th><th>Amount</th><th>Date</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of payments">
+              <td>{{ p.user }}</td>
+              <td>${{ p.amount }}</td>
+              <td class="muted">{{ p.date | date:'mediumDate' }}</td>
+              <td>
+                <span class="chip" [class.gold]="p.status === 'completed'" [class.warn]="p.status === 'pending'">
+                  {{ p.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+</div>

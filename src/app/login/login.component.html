@@ -1,0 +1,32 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Welcome back</h1>
+    <p class="subtitle">Sign in to your account</p>
+
+    <form (ngSubmit)="submit()" #f="ngForm" autocomplete="off">
+      <label>
+        Email
+        <input type="email" name="email" [(ngModel)]="email" required />
+      </label>
+
+      <label>
+        Password
+        <input type="password" name="password" [(ngModel)]="password" required />
+      </label>
+
+      <div class="error" *ngIf="error">{{ error }}</div>
+
+      <button type="submit" class="btn primary" [disabled]="loading">
+        {{ loading ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="alt">No account? <a routerLink="/register">Create one</a></p>
+
+    <div class="hint">
+      <strong>Demo credentials</strong>
+      <div>admin@example.com / admin123</div>
+      <div>user@example.com / user123</div>
+    </div>
+  </div>
+</div>
