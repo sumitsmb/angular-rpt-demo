@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -13,6 +14,12 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'admin' },
+  },
+  {
+    path: 'admin/users',
+    component: ManageUsersComponent,
     canActivate: [AuthGuard],
     data: { role: 'admin' },
   },

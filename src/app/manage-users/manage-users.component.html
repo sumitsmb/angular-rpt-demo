@@ -1,0 +1,80 @@
+<div class="dashboard">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">A</span>
+      <div>
+        <div class="brand-title">Manage Users</div>
+        <div class="brand-sub">Edit accounts, change roles, and remove users</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a class="btn ghost" routerLink="/admin">← Back to dashboard</a>
+      <button class="btn ghost" (click)="auth.logout()">Sign out</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="toolbar-row">
+      <input class="search" type="search" [(ngModel)]="search" placeholder="Search by name or email…" />
+      <span class="muted">{{ filtered.length }} of {{ users.length }} users</span>
+    </div>
+
+    <div class="flash" *ngIf="message" [class.error]="messageType === 'error'">{{ message }}</div>
+
+    <section class="panel">
+      <table class="table">
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Role</th><th>Plan</th><th>Created</th><th class="actions">Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of filtered">
+            <ng-container *ngIf="editingId !== u.id; else editRow">
+              <td>
+                {{ u.name }}
+                <span class="me" *ngIf="current?.id === u.id">you</span>
+              </td>
+              <td class="muted">{{ u.email }}</td>
+              <td><span class="chip" [class.admin]="u.role === 'admin'">{{ u.role }}</span></td>
+              <td><span class="chip" [class.gold]="u.premium">{{ u.premium ? 'Premium' : 'Free' }}</span></td>
+              <td class="muted">{{ u.createdAt | date:'mediumDate' }}</td>
+              <td class="actions">
+                <button class="btn small" (click)="startEdit(u)">Edit</button>
+                <button class="btn small ghost" (click)="togglePremium(u)">
+                  {{ u.premium ? 'Downgrade' : 'Upgrade' }}
+                </button>
+                <button class="btn small danger" (click)="remove(u)" [disabled]="current?.id === u.id">
+                  Delete
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-template #editRow>
+              <td><input class="cell-input" [(ngModel)]="draft.name" name="name-{{u.id}}" /></td>
+              <td><input class="cell-input" type="email" [(ngModel)]="draft.email" name="email-{{u.id}}" /></td>
+              <td>
+                <select class="cell-input" [(ngModel)]="draft.role" name="role-{{u.id}}">
+                  <option value="user">user</option>
+                  <option value="admin">admin</option>
+                </select>
+              </td>
+              <td>
+                <label class="check">
+                  <input type="checkbox" [(ngModel)]="draft.premium" name="prem-{{u.id}}" />
+                  Premium
+                </label>
+              </td>
+              <td class="muted">{{ u.createdAt | date:'mediumDate' }}</td>
+              <td class="actions">
+                <button class="btn small" (click)="saveEdit(u)">Save</button>
+                <button class="btn small ghost" (click)="cancelEdit()">Cancel</button>
+              </td>
+            </ng-template>
+          </tr>
+          <tr *ngIf="filtered.length === 0">
+            <td colspan="6" class="empty muted">No users match your search.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>

@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
     RegisterComponent,
     AdminDashboardComponent,
     UserDashboardComponent,
+    ManageUsersComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [],
