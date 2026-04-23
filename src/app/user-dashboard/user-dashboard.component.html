@@ -1,0 +1,95 @@
+<div class="dashboard">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo user">{{ (current?.name || 'U').charAt(0) }}</span>
+      <div>
+        <div class="brand-title">My Dashboard</div>
+        <div class="brand-sub">Hi {{ current?.name }}, here's your snapshot</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="badge" [class.gold]="current?.premium">{{ current?.premium ? 'Premium' : 'Free' }}</span>
+      <button class="btn ghost" (click)="auth.logout()">Sign out</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <h2 class="section-title">Performance</h2>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue">S</div>
+        <div class="stat-meta">
+          <div class="stat-label">Total Sales</div>
+          <div class="stat-value">{{ totalSales }}</div>
+          <div class="stat-foot up">avg ${{ avgOrderValue }}/order</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon teal">C</div>
+        <div class="stat-meta">
+          <div class="stat-label">Total Customers</div>
+          <div class="stat-value">{{ totalCustomers }}</div>
+          <div class="stat-foot">active accounts</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon gold">★</div>
+        <div class="stat-meta">
+          <div class="stat-label">Premium Customers</div>
+          <div class="stat-value">{{ premiumCustomers }}</div>
+          <div class="stat-foot">high LTV</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">$</div>
+        <div class="stat-meta">
+          <div class="stat-label">Payments Received</div>
+          <div class="stat-value">${{ totalPayments | number }}</div>
+          <div class="stat-foot up">${{ monthRevenue | number }} this month</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange">⏱</div>
+        <div class="stat-meta">
+          <div class="stat-label">Pending Payments</div>
+          <div class="stat-value">${{ pendingPayments | number }}</div>
+          <div class="stat-foot">in clearing</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">P</div>
+        <div class="stat-meta">
+          <div class="stat-label">Top Product</div>
+          <div class="stat-value small">{{ topProduct }}</div>
+          <div class="stat-foot">best seller</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="panel">
+      <header class="panel-head">
+        <h3>Recent Sales</h3>
+        <span class="muted">{{ sales.length }} entries</span>
+      </header>
+      <table class="table">
+        <thead>
+          <tr><th>Customer</th><th>Product</th><th>Amount</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of sales">
+            <td>{{ s.customer }}</td>
+            <td class="muted">{{ s.product }}</td>
+            <td>${{ s.amount }}</td>
+            <td class="muted">{{ s.date | date:'mediumDate' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
